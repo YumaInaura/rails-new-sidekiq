@@ -3,7 +3,7 @@
 rails new your-project
 cd your-project
 
-# Gem
+# Gemfile
 
 ```diff
 + gem 'sidekiq'
@@ -16,24 +16,30 @@ bundle install
 
 # Job
 
+```
 bundle exec rails generate job sample
+```
 
+```
 vim app/jobs/sample_job.rb
+```
 
-```rb
+```diff
 class SampleJob < ApplicationJob
   queue_as :default
 
   def perform(*args)
-    puts 'Worked!'
-    puts Time.current
++    puts 'Worked!'
++    puts Time.current
   end
 end
 ```
 
 # Config
 
+```
 vim config/application.rb
+```
 
 ```diff
 require_relative 'boot'
