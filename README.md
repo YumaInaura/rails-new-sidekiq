@@ -1,7 +1,9 @@
 # Rails new
 
+```
 rails new your-project
 cd your-project
+```
 
 # Gemfile
 
