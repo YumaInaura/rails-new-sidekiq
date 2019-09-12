@@ -1,25 +1,88 @@
-# README
+# Rails new
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+rails new your-project
+cd your-project
 
-Things you may want to cover:
+# Gem
 
-* Ruby version
+```diff
++ gem 'sidekiq'
++ gem 'redis'
+```
 
-* System dependencies
+```
+bundle install
+```
 
-* Configuration
+# Job
 
-* Database creation
+bundle exec rails generate job sample
 
-* Database initialization
+vim app/jobs/sample_job.rb
 
-* How to run the test suite
+```rb
+class SampleJob < ApplicationJob
+  queue_as :default
 
-* Services (job queues, cache servers, search engines, etc.)
+  def perform(*args)
+    puts 'Worked!'
+    puts Time.current
+  end
+end
+```
 
-* Deployment instructions
+# Config
 
-* ...
-# rails-new-sidekiq
+vim config/application.rb
+
+```diff
+require_relative 'boot'
+
+require 'rails/all'
+
+# Require the gems listed in Gemfile, including any gems
+# you've limited to :test, :development, or :production.
+Bundler.require(*Rails.groups)
+
+module RailsNewSidekiq
+  class Application < Rails::Application
+    # Initialize configuration defaults for originally generated Rails version.
+    config.load_defaults 6.0
+
++    config.active_job.queue_adapter = :sidekiq
+
+    # Settings in config/environments/* take precedence over those specified here.
+    # Application configuration can go into files in config/initializers
+    # -- all .rb files in that directory are automatically loaded after loading
+    # the framework and any gems in your application.
+  end
+end
+```
+
+# Redis
+
+```
+brew install redis (Mac)
+redis-server
+```
+
+# Worker
+
+```
+bundle exec sidekiq
+```
+
+# Run
+
+```
+bundle exec rails runner 'SampleJob.perform_later'
+```
+
+result in worker
+
+```
+2019-09-12T23:40:33.677Z pid=29375 tid=owiiogm93 class=SampleJob jid=0c56247c9f77a055dd35e78b INFO: start
+Worked!
+2019-09-12 23:40:33 UTC
+2019-09-12T23:40:33.692Z pid=29375 tid=owiiogm93 class=SampleJob jid=0c56247c9f77a055dd35e78b elapsed=0.015 INFO: done
+```
