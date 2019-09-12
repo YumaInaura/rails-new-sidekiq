@@ -74,11 +74,17 @@ brew install redis (Mac)
 redis-server
 ```
 
+![image](https://user-images.githubusercontent.com/13635059/64828465-92f0a080-d603-11e9-8db6-2d24b39f7017.png)
+
+
+
 # Worker
 
 ```
 bundle exec sidekiq
 ```
+
+![image](https://user-images.githubusercontent.com/13635059/64828575-085c7100-d604-11e9-86c0-31f814cf8b86.png)
 
 # Run
 
